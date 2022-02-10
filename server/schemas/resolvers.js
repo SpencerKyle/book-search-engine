@@ -1,6 +1,6 @@
-import apollo, { AuthenticationError } from 'apollo-server-express';
-import { User } from '../models';
-import { signToken } from '../utils/auth';
+const { AuthenticationError } = require('apollo-server-express'); 
+const { User } = require('../models');
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -37,7 +37,7 @@ const resolvers = {
             const token = signToken(user);
             return { token, user};
         },
-        addBook: async (parent, { book }, context) => {
+        saveBook: async (parent, { book }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user.id },
@@ -61,4 +61,4 @@ const resolvers = {
     }
 };
 
-export default resolvers;
+module.exports = resolvers;
